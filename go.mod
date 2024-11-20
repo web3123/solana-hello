@@ -1,6 +1,6 @@
 module solana-wallet
 
-go 1.23.2
+go 1.23
 
 require github.com/blocto/solana-go-sdk v1.30.0
 
