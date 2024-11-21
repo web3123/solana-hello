@@ -5,48 +5,53 @@ import { getKeypairFromEnvironment } from "@solana-developers/helpers";
 const CLUSTER_NAME = "devnet";
 
 const PING_PROGRAM_ADDRESS = new web3.PublicKey(
-  "CWXWAWgmHsKisPp8rvAhWrbECzc5xwBk2DiB43txNBp1"
+  "4zvR1q55pwFPxebT4p5fwyengUAGT7QsuNrnRkoBk9NF"
 );
 const PING_PROGRAM_DATA_ADDRESS = new web3.PublicKey(
   "Ah9K7dQ8EHaZqcAsgBW8w37yN2eAy3koFmUn4x3CJtod"
 );
 
-dotenv.config();
+async function main() {
 
-const payer = getKeypairFromEnvironment("SECRET_KEY");
-console.log(`🔑 Loaded keypair ${payer.publicKey.toBase58()}!`);
+  dotenv.config();
 
-const connection = new web3.Connection(web3.clusterApiUrl(CLUSTER_NAME));
-console.log(`⚡️ Connected to Solana ${CLUSTER_NAME} cluster!`);
+  const payer = getKeypairFromEnvironment("SECRET_KEY");
+  console.log(`🔑 Loaded keypair ${payer.publicKey.toBase58()}!`);
 
-// Note: may not work first time as `await` returns before Lamports are confirmed.
-// Being fixed in https://github.com/solana-labs/solana-web3.js/issues/1579
-await connection.requestAirdrop(payer.publicKey, web3.LAMPORTS_PER_SOL * 1);
-console.log(`💸 Got some ${CLUSTER_NAME} lamports!`);
+  const connection = new web3.Connection(web3.clusterApiUrl(CLUSTER_NAME));
+  console.log(`⚡️ Connected to Solana ${CLUSTER_NAME} cluster!`);
 
-const transaction = new web3.Transaction();
+  // Note: may not work first time as `await` returns before Lamports are confirmed.
+  // Being fixed in https://github.com/solana-labs/solana-web3.js/issues/1579
+  await connection.requestAirdrop(payer.publicKey, web3.LAMPORTS_PER_SOL * 1);
+  console.log(`💸 Got some ${CLUSTER_NAME} lamports!`);
 
-const programId = new web3.PublicKey(PING_PROGRAM_ADDRESS);
-const pingProgramDataId = new web3.PublicKey(PING_PROGRAM_DATA_ADDRESS);
+  const transaction = new web3.Transaction();
 
-const instruction = new web3.TransactionInstruction({
-  keys: [
-    {
-      pubkey: pingProgramDataId,
-      isSigner: false,
-      isWritable: true,
-    },
-  ],
-  programId,
-});
+  const programId = new web3.PublicKey(PING_PROGRAM_ADDRESS);
+  const pingProgramDataId = new web3.PublicKey(PING_PROGRAM_DATA_ADDRESS);
 
-transaction.add(instruction);
+  const instruction = new web3.TransactionInstruction({
+    keys: [
+      {
+        pubkey: pingProgramDataId,
+        isSigner: false,
+        isWritable: true,
+      },
+    ],
+    programId,
+  });
 
-const signature = await web3.sendAndConfirmTransaction(
-  connection,
-  transaction,
-  [payer]
-);
+  transaction.add(instruction);
 
-console.log(`✅ Transaction completed! You can view your transaction on the Solana Explorer at:`);
-console.log(`https://explorer.solana.com/tx/${signature}?cluster=${CLUSTER_NAME}`);
+  const signature = await web3.sendAndConfirmTransaction(
+    connection,
+    transaction,
+    [payer]
+  );
+
+  console.log(`✅ Transaction completed! You can view your transaction on the Solana Explorer at:`);
+  console.log(`https://explorer.solana.com/tx/${signature}?cluster=${CLUSTER_NAME}`);
+}
+
+main()
