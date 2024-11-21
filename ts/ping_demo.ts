@@ -5,10 +5,10 @@ import { getKeypairFromEnvironment } from "@solana-developers/helpers";
 const CLUSTER_NAME = "devnet";
 
 const PING_PROGRAM_ADDRESS = new web3.PublicKey(
-  "ChT1B39WKLS8qUrkLvFDXMhEJ4F1XZzwUNHUt4AU9aVa"
+  "CWXWAWgmHsKisPp8rvAhWrbECzc5xwBk2DiB43txNBp1"
 );
 const PING_PROGRAM_DATA_ADDRESS = new web3.PublicKey(
-  "CWXWAWgmHsKisPp8rvAhWrbECzc5xwBk2DiB43txNBp1"
+  "Ah9K7dQ8EHaZqcAsgBW8w37yN2eAy3koFmUn4x3CJtod"
 );
 
 dotenv.config();
