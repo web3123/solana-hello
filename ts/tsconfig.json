@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        // "moduleResolution": "nodenext",
+        // "module": "CommonJS",
+        "module": "preserve",
+        "target": "es2017",
+        "types": [
+          "node"
+          ]
+    }
+  }
